@@ -332,6 +332,7 @@ en-zh-max/
 
 ## 致谢
 
+- **[HoraceLuBFA/en-zh-translation-polish](https://github.com/HoraceLuBFA/en-zh-translation-polish)** — 本 skill 的原始基础，最初的基本架构与参考框架
 - **叶子南**《高级英汉翻译理论与实践》（清华大学出版社，2020）——方法论基石
 - **obra/superpowers** — 提供 `verification-before-completion` 校验
 - **blader/humanizer** — 提供四维验证与 AI 模式检测
