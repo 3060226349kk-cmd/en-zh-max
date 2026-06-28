@@ -7,7 +7,7 @@ description: >-
   writing polish, or single-word lookups.
 license: MIT
 version: 3.1.0
-tags: [translation, chinese, english-to-chinese, 英译汉, 英译中, 润色, 中英对照, localization, ultra]
+tags: [translation, english-to-chinese, english-chinese, chinese-translation, 英译汉, 英译中, 翻译, 润色, 中英对照, localization, nlp, llm, claude-code, claude-skill, book2skill, ye-zinan, translation-pipeline]
 allowed-tools: Read Write Edit Bash
 ---
 

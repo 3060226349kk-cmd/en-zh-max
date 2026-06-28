@@ -345,3 +345,9 @@ en-zh-max/
 ## 许可
 
 [MIT](LICENSE) © 2026 Lilipuut
+
+---
+
+## 关键词 / Tags
+
+`english-to-chinese` `英译汉` `英译中` `chinese-translation` `translation` `localization` `nlp` `book2skill` `claude-code` `claude-skill` `ye-zinan` `translation-pipeline` `中英对照` `润色`
