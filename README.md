@@ -5,7 +5,7 @@
 [![Release](https://img.shields.io/badge/release-v3.1.0-blue)](https://github.com/3060226349kk-cmd/en-zh-max/releases/latest)
 [![Version](https://img.shields.io/badge/version-3.1.0)](SKILL.md)
 
-[🇨🇳 中文](#en-zh-max--英译汉翻译-claude-code-skill) · [🇬🇧 English](#en-zh-max-english%E2%86%92chinese-translation-for-claude-code)
+[🇨🇳 中文](#en-zh-max--英译汉翻译-claude-code-skill) · [🇬🇧 English](#en-zh-max--english-to-chinese-translation-for-claude-code)
 
 > 英文→中文翻译与润色。9 阶段工作流 + 叶子南《高级英汉翻译理论与实践》17 个蒸馏技能 + 4 层校验链 + 语域脏度管线。
 > 专为 Claude Code 设计，输出英中对照译文。
@@ -307,44 +307,410 @@ en-zh-max/
 
 ### 贡献流程
 
-1. **Fork 本仓库**到您的 GitHub 账户
-2. **创建特性分支**：`git checkout -b feature/your-feature`
-3. **修改后提交**：
-   - 不要修改 `SKILL.md` 的 version 字段（维护者统一管理版本号）
-   - 保持 `ultra/SKILL_MAP.md` 中的阶段映射同步
-4. **发起 Pull Request** 到 main 分支
+1. **开 issue**：在 [Issues](https://github.com/3060226349kk-cmd/en-zh-max/issues) 描述改动目标，确保与其他贡献者不冲突
+2. **Fork + Branch**：从 `main` 创建 feature branch（如 `fix/punctuation-typo`、`feat/new-reference`）
+3. **改动范围**：
+   - `SKILL.md`：工作流阶段的门禁条件、脚本路径、方法论引用
+   - `references/*.md`：翻译技巧、陷阱清单的增补或修正
+   - `scripts/*.py`：辅助脚本的功能扩展或 bug 修复
+   - `ultra/*.md`：方法论映射表或工作流流程图的更新
+   - `README.md`：中文版 + 英文版同时更新（精确对称原则）
+4. **提交**：commit message 以前置标签开头，如 `[SKILL]` `[REF]` `[SCRIPT]` `[ULTRA]` `[DOC]`
+5. **PR**：关联 issue，描述改动内容与验证方式
 
-### 适合的贡献方向
+### 代码规范
 
-- **补充 `references/`**：翻译腔症状、技巧库、文本分析指南等文档化
-- **改进脚本**：`scripts/` 下的辅助脚本（标点归一、版本标记清理、PDF 生成等）
-- **方法论扩展**：`ultra/SKILL_MAP.md` 新增方法论技能的映射
-- **Bug 修复**：工作流中的逻辑遗漏、门禁条件缺陷、路径问题
-- **测试**：实际翻译测试、边缘案例覆盖
+- SKILL.md：保留 YAML frontmatter（`name` / `description` / `version` / `allowed-tools`），工作流阶段标注准入/准出门禁
+- references/*.md：每条技巧以有编号的列表条目呈现，引用原文出处（叶子南原书页码）
+- scripts/*.py：兼容 Python 3.8+，不接受外部依赖；文件路径通过 `$SKILL_DIR` 环境变量或相对路径解析
+- 跨平台注意：脚本路径在 Windows（git-bash）和 macOS/Linux 下均需可运行
+- 新增方法论文档需在 `SKILL_MAP.md` 中注册其阶段映射
 
-### 不适合的贡献方向
+### 发布流程
 
-- 改变翻译策略层的核心方法论（叶子南体系是锚定框架）
-- 删除语域脏度管线或校验链步骤（这些是必选质量关卡）
-- 大幅重写 SKILL.md 的工作流阶段编号体系
+1. 版本号更新：`SKILL.md` 的 YAML `version` 字段 + README badge 链接
+2. CHANGELOG（可选）记录每次版本的主要变更
+3. 合并到 `main` 后即通过 `git clone` 可获取最新版本
 
 ---
 
 ## 致谢
 
-- **[HoraceLuBFA/en-zh-translation-polish](https://github.com/HoraceLuBFA/en-zh-translation-polish)** — 本 skill 的原始基础，最初的基本架构与参考框架
-- **叶子南**《高级英汉翻译理论与实践》（清华大学出版社，2020）——方法论基石
-- **obra/superpowers** — 提供 `verification-before-completion` 校验
-- **blader/humanizer** — 提供四维验证与 AI 模式检测
-- **Claude Code** — 运行本 skill 的宿主平台
+**项目作者：** [Lilipuut](https://github.com/3060226349kk-cmd) — en-zh-max 整体架构设计、方法论集成与实现。
 
-本 skill 的开发建立在以上开源社区与学术成果的基础之上。
+本 skill 的基本框架源自 [en-zh-translation-polish](https://github.com/HoraceLuBFA/en-zh-translation-polish)（英汉翻译打磨），在其 7 阶段工作流基础上扩展为完整版。感谢原技能的架构设计。
+
+书中 17 个翻译技能的蒸馏提取通过 [cangjie-skill](https://github.com/3060226349kk-cmd/cangjie-skill) 的 book2skill 管线完成。
+
+特别鸣谢 **叶子南** 教授——《高级英汉翻译理论与实践》（清华大学出版社，2020）为整套方法论提供了系统理论基石。本书的文本分析七维度法、解包袱法、英汉五层次对比、套语水冰识别、西化表达六维评估等核心概念，构成了本 skill 每个阶段的学理支撑。
+
+校验链中的 `verification-before-completion` 步骤来自 [Superpowers](https://github.com/obra/superpowers) 技能集、`scribe:prose-reviewer` 来自 [scribe](https://github.com/anthrxc/scribe)、`humanizer` 与 `humanizer-zh` 为独立校验管线。感谢各技能的开放架构。
 
 ---
 
 ## 许可
 
 [MIT](LICENSE) © 2026 Lilipuut
+
+[↑ 回到顶部](#en-zh-max--英译汉翻译-claude-code-skill) · [🇬🇧 English](#en-zh-max--english-to-chinese-translation-for-claude-code)
+
+---
+
+---
+
+# en-zh-max — English to Chinese Translation for Claude Code
+
+[![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-9cf)](https://docs.anthropic.com/en/docs/claude-code)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+[![Version](https://img.shields.io/badge/version-3.1.0)](SKILL.md)
+
+> English→Chinese translation & polish. 9-stage workflow + 17 distilled skills from Ye Zinan's *Advanced English-Chinese Translation Theory and Practice* + 4-step validation chain + register dirtiness pipeline.
+> Designed for Claude Code, outputs bilingual parallel text.
+>
+> 📊 [Full workflow diagram (with validation chain)](ultra/WORKFLOW.md)
+
+---
+
+## Table of Contents
+
+- [What Is This?](#what-is-this)
+- [Theoretical Foundation](#theoretical-foundation)
+- [Workflow Pipeline](#workflow-pipeline)
+- [Validation Pipeline](#validation-pipeline)
+- [Quick Install](#quick-install)
+- [Quick Start](#quick-start)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [Acknowledgements](#acknowledgements)
+- [License](#license)
+
+---
+
+## What Is This?
+
+**en-zh-max** is a [Claude Code](https://docs.anthropic.com/en/docs/claude-code) translation skill that renders English into idiomatic Chinese with bilingual parallel output. It integrates **17 distilled skills** from Ye Zinan's *Advanced English-Chinese Translation Theory and Practice* (Tsinghua University Press, 2020) via the book2skill pipeline.
+
+### Three Fundamental English→Chinese Challenges
+
+en-zh-max is designed around three challenges that distinguish English→Chinese from other language pairs:
+
+1. **Hypotaxis vs Parataxis**—English uses conjunctions, relative pronouns, and prepositions to make logical relationships explicit (hypotaxis); Chinese relies on word order, context, and parallelism to imply those relationships (parataxis). The single deadliest habit in E→C translation is mechanically mapping every `because`, `although`, `which`, and `that` to Chinese equivalents, producing bloated sentences littered with "因为"s and "的"s.
+
+2. **Nominalized Abstract Subjects**—English favors abstract nouns as subjects ("The confidence that...", "The realization of..."); Chinese prefers concrete persons or things as subjects. Translating abstract subjects literally makes the Chinese feel disembodied and bloodless.
+
+3. **Stacked Attributive Clauses**—English relative clauses can extend rightward indefinitely ("the man who... which... that..."), but Chinese modifiers must precede the noun with strict length limits. The core strategy is to break long attributives into short flowing clauses or convert them to adverbial clauses.
+
+---
+
+## Theoretical Foundation
+
+The skill's methodology is rooted in Ye Zinan's *Advanced English-Chinese Translation Theory and Practice* (Tsinghua University Press, 2020), distilled into 17 executable skills via the book2skill pipeline.
+
+### Five Governing Principles
+
+> **"Analyze before you translate"**—Seven-dimension diagnosis + freedom score; position yourself before moving the pen (Chapter 15)
+>
+> **"The target language has the last word"**—The overall direction is toward the reader, leveraging the strengths of Chinese (Chapter 1)
+>
+> **"Flexibility is the core competence"**—Free yourself from the source language's structural cage (Nida's theory, Chapter 11)
+>
+> **"Protect the purity of Chinese"**—Beware of the spread of Westernized Chinese; the translator has a duty to preserve the native language (Chapter 9)
+>
+> **"Paraphrase is the enemy of literary translation"**—In literary translation, preserving the source text's linguistic form takes priority over paraphrasing content (Chapter 14)
+
+### 17 Distilled Skills
+
+Four methodology groups:
+
+| Group | Skills | Applied In |
+|-------|--------|-----------|
+| **Text analysis & strategy** (4) | Seven-dimension diagnosis & freedom assessment, Newmark's text typology translation strategy, Basic translation problem decision framework, Nida's three-pillar functional equivalence | Preload + Phase 0 |
+| **Comprehension & conversion** (5) | Three-type semantic analysis, Three-stage translation thinking, Unpacking method, Five-level E-C contrastive analysis, Dynamic translation unit selection | Phases 0-2 |
+| **Polish & quality** (5) | Formulaic language "water vs ice" identification, Six-dimension Westernization assessment, Cognitive metaphor discovery, Six-dimension accuracy checklist, Literary anti-paraphrase | Phases 3-7 |
+| **Style & rhetoric** (3) | Foregrounding processing, Literary anti-paraphrase method, Three-stage translation thinking method | Phase 7 (soft texts) |
+
+See [`ultra/SKILL_MAP.md`](ultra/SKILL_MAP.md) for the complete mapping between each skill and its workflow phase.
+
+---
+
+## Workflow Pipeline
+
+en-zh-max's workflow comprises **9 phases**, 6 of which incorporate specific skills from Ye Zinan's methodology. The following is a structural overview; gate conditions and script paths are documented in [SKILL.md](SKILL.md).
+
+### Preparation Phases
+
+| Phase | Name | Responsibility |
+|-------|------|---------------|
+| **-2** | Pre-scan & strategy decision | Word count, decide serial/hybrid mode, output `translation-plan.md` |
+| **-1** | Project directory init | Create `source/`, move files, extract formats |
+| **-0.5** | Methodology preload batch | Read 17 methodology SKILL.md files in one pass to establish a full-pipeline foundation |
+
+### Core Translation Pipeline (Phases 0→6)
+
+| Phase | Name | Responsibility |
+|-------|------|---------------|
+| **0** | Text analysis | Set domestication level (hard/mid/soft), write text-profile (with **register dirtiness 1-5**), seven-dimension diagnosis + freedom score |
+| **1** | Comprehension & deverbalization | Strip English surface forms, unpacking method, kernel sentence conversion |
+| **2** | First draft | Parataxis-first drafting, long sentence splitting, hypotaxis→parataxis conversion; apply five-level contrastive analysis + translation unit selection |
+| **2.5** | Register alignment ★ | Forced per-paragraph register parity check when dirtiness ≥ 3, correct dirtiness drift |
+| **3** | Polish diagnosis | Translationese cleanup (8 symptom classes), formulaic language identification, six-dimension Westernization assessment |
+| **4** | Prosody polish | Read-aloud calibration, disyllabic/tetrasyllabic rhythm, pace restructuring (soft texts only) |
+| **5** | Quality check | **16-item self-check** (12 general + 4 register-specific), source-target comparison; apply six-dimension accuracy checklist |
+| **6** | Punctuation normalization | Mechanical: `normalize-punctuation.py`, Chinese fullwidth conversion → residual 0 |
+
+### Delivery (Phase 8)
+
+| Step | Responsibility |
+|------|---------------|
+| **8A** | Final cleanup: strip version markers, delete text-profile, add translator credit (`strip-version-markers.py`), clean AI workflow artifacts |
+| **8B** | Generate deliverables: bilingual MD/HTML/EPUB/MOBI/PDF (on demand) |
+
+### Parallel Translation for Long Texts (Hybrid Mode)
+
+When the full text has ≥ 7 chapters, the B1/B2/B3 hybrid pipeline activates:
+
+- **Phase B1**: Baseline chapter serial translation (first 1-2 chapters, establishes style baseline, terminology decision record, syntax precedents)
+- **Phase B2**: Batch chapter parallel translation (remaining chapters, sub-agents run streamlined pipeline, inject style baseline)
+- **Phase B3**: Merge & full-text serial validation (concatenate → Phase 7 full validation chain → Phase 8 cleanup & delivery)
+
+≤ 6 chapters: fully serial, no hybrid mode. See [SKILL.md](SKILL.md) for details.
+
+---
+
+## Validation Pipeline
+
+After the translation is written to disk and before deliverables are generated, the following **4-step chain** must execute in order. Any failure → return to the relevant phase → re-run the chain. **No step may be skipped.**
+
+```
+Phase 6 (Punctuation Normalization)
+       ↓
+① scribe:prose-reviewer            — AI-isms / translationese / prosodic drift
+       ↓
+② verification-before-completion   — deliverable integrity + bilingual alignment
+       ↓
+③ humanizer                        — 4-dimension validation (Fidelity / Naturalness /
+                                       Grammar / AI Patterns)
+                                     + forced adversarial self-review
+       ↓
+④ humanizer-zh                     — Chinese AI-trace final review (24 rules)
+       ↓
+Phase 8 (Delivery)
+```
+
+### Step 1: scribe:prose-reviewer
+
+Audits the Chinese translation for AI writing patterns, residual translationese, banned phrases, register drift, and structural monotony. **Advisory**—proposed edits are subject to final approval by humanizer (Step 3).
+
+### Step 2: verification-before-completion
+
+Full deliverable integrity check: MD/HTML completeness, punctuation residual (must be 0), bilingual segment alignment, source file presence in `source/`. Confirms operational state ("humanizer not yet executed," etc.).
+
+For soft texts (freedom ≥ 4), inserts rhetorical skills after this step: foregrounding + anti-paraphrase.
+
+### Step 3: humanizer
+
+Splits the Chinese translation into chunks (3-5 paragraphs each) and runs 4-dimension validation on each:
+
+- **Fidelity**: sentence-by-sentence source comparison (semantic equivalence, negation, modality, proper nouns)
+- **Naturalness**: translationese, prosodic feel, register fit
+- **Grammar**: collocation, punctuation, agreement
+- **AI Patterns**: 29 AI writing pattern rules
+
+After all chunks pass, executes **forced adversarial self-review**—re-examines every already-passed chunk from scratch to catch systematic blind spots.
+
+humanizer has **final authority** over prose-reviewer's suggestions: approve, reject, or detect issues prose-reviewer missed.
+
+### Step 4: humanizer-zh
+
+Processes only Chinese translation lines (filters English blockquote lines). Runs each chunk against **24 Chinese AI-trace rules** (4 categories × 6: content patterns / language grammar / style patterns / conversational fillers). Detects and fixes: AI high-frequency vocabulary, em-dash overuse, three-part parallelism, negative parallelism, copula avoidance, false scope, filler phrases, generic positive conclusions, etc.
+
+**Role boundary**: humanizer ensures "correctness" (Fidelity + Naturalness + Grammar); humanizer-zh ensures "reads like human writing" (Chinese AI trace removal). The two are complementary and non-substitutable.
+
+### Auto-fix Rules
+
+Any error or issue discovered during the 4-step chain is **auto-fixed by default** and written directly into the bilingual MD file. No per-item approval is required. The corrected MD is the sole input source for Phase 8 deliverable generation (HTML/EPUB/MOBI).
+
+---
+
+## Quick Install
+
+### Method 1: Clone to Claude Code skills directory (recommended)
+
+```bash
+cd ~/.claude/skills/
+git clone https://github.com/3060226349kk-cmd/en-zh-max.git en-zh-max
+```
+
+After cloning, all subdirectories (`references/`, `scripts/`, `ultra/`) are in place with self-consistent script paths.
+
+### Method 2: Manual copy
+
+Copy the following to `~/.claude/skills/en-zh-max/`:
+
+```
+SKILL.md
+references/
+scripts/
+ultra/
+```
+
+**Note**: Workflow scripts (`normalize-punctuation.py`, `strip-version-markers.py`) and `ultra/` methodology files rely on relative path resolution. Manual copy must preserve the full directory structure, otherwise Phase 6 normalization and Phase 8A cleanup scripts will fail.
+
+### Requirements
+
+| Dependency | Version | Purpose | Required |
+|-----------|---------|---------|----------|
+| [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | latest | Host CLI for this skill | **Required** |
+| Python | 3.8+ | Helper scripts in `scripts/` | **Required** |
+| Git | — | Clone & version management | **Required** |
+| pip: `playwright` | latest | HTML → PDF rendering (`bilingual-to-pdf.py`) | Optional¹ |
+| pip: `ebooklib` | latest | EPUB generation (`output-formats.md` scripts) | Optional¹ |
+| pip: `PyMuPDF` (`fitz`) | latest | PDF text extraction (`project-init.md` scripts) | Optional² |
+| [Pandoc](https://pandoc.org) | latest | Format conversion (EPUB/MOBI/PDF intermediary) | Optional¹ |
+| [Kindle Previewer 3](https://www.amazon.com/gp/feature.html?docId=1000765261) (incl. `kindlegen`) | 3.x | EPUB → MOBI conversion | Optional¹ |
+| [Calibre](https://calibre-ebook.com) (`ebook-convert`) | latest | AZW3/MOBI format conversion | Optional¹ |
+| [marker-pdf](https://github.com/VikParuchuri/marker) (`marker`) | latest | Scanned PDF OCR → text | Optional² |
+
+> ¹ Only needed when generating that specific output format (bilingual MD is the source of all formats and requires no extra tools).
+> ² Only needed when the source text is a scanned PDF or special format. Plain text/EPUB files need none.
+
+Script path configuration:
+
+```bash
+# Playwright (PDF rendering) — install once
+pip install playwright && python3 -m playwright install chromium
+
+# Kindlegen (MOBI) — installed via Kindle Previewer 3; update KINDLEGEN path
+# in references/output-formats.md to match your installation
+```
+
+### Required Skills
+
+The validation pipeline and methodology enhancements rely on these Claude Code skills:
+
+| Skill | Official Source | Purpose | Install |
+|-------|----------------|---------|---------|
+| [superpowers](https://github.com/obra/superpowers) | `obra/superpowers` | Validation chain: `verification-before-completion` | `cd ~/.claude/skills/ && git clone https://github.com/obra/superpowers.git` |
+| scribe | [Claude Code built-in](https://docs.anthropic.com/en/docs/claude-code/plugins) | Validation chain: `scribe:prose-reviewer` (AI-isms/translationese audit) | Ships with Claude Code, no extra install needed |
+| [humanizer](https://github.com/blader/humanizer) | `blader/humanizer` | Validation chain: 4-dimension check (Fidelity/Naturalness/Grammar/AI Patterns) + adversarial self-review | `cd ~/.claude/skills/ && wget -O SKILL.md https://raw.githubusercontent.com/blader/humanizer/main/SKILL.md` |
+| humanizer-zh | Derived from `blader/humanizer` (Chinese adaptation) | Validation chain: Chinese AI-trace final review (24 rules) | Same as `humanizer`, with translated Chinese rules |
+
+> en-zh-max's base translation workflow (Phases 0-6) runs without these skills, but the validation chain (Phase 7) and methodology-enhanced phases (-0.5/0/1/2/3/5) require them.
+>
+> All install via `git clone` in `~/.claude/skills/`, same as en-zh-max itself.
+
+---
+
+## Quick Start
+
+In Claude Code, make a translation request:
+
+```
+Translate this English to Chinese:
+(your text here)
+```
+
+Or translate from a file:
+
+```
+Translate this file to Chinese
+```
+
+Claude Code will automatically invoke the en-zh-max skill and execute the full workflow pipeline. On first run, the methodology preload batch (Phase -0.5) loads automatically to establish the full-pipeline foundation.
+
+---
+
+## Project Structure
+
+```
+en-zh-max/
+├── SKILL.md                       # Runtime instructions: full workflow, gate conditions, script paths
+├── README.md                      # This file
+├── LICENSE                        # MIT
+├── .gitignore
+├── references/                    # Methodology documents (techniques, trap lists, text analysis)
+│   ├── bilingual-html-template.md      # Bilingual HTML template (CEU Navy CSS)
+│   ├── epub-extraction.md              # EPUB text extraction method
+│   ├── libertine-vocabulary.md          # Register-matched vocabulary for explicit content
+│   ├── literary-fiction-sexual-register.md  # Mixed register guide for contemporary literary sex scenes
+│   ├── mobi-extraction.md              # MOBI text extraction method
+│   ├── output-formats.md               # Deliverable generation scripts (HTML/EPUB/MOBI/PDF)
+│   ├── parallel-delegation.md          # Parallel translation for long texts (split→dispatch→merge)
+│   ├── playwright-pdf-generation.md    # Playwright HTML→PDF wrapper
+│   ├── project-init.md                 # Phase -1 project init detailed steps
+│   ├── techniques.md                   # E→C technique inventory (conversion, addition/omission, splitting/merging)
+│   ├── text-analysis-and-qa.md         # Text analysis framework + domestication scale + QA standards
+│   └── translationese-symptoms.md      # 8-class translationese symptom list with fixes
+├── scripts/                       # Workflow helper scripts
+│   ├── normalize-punctuation.py        # Phase 6: Chinese fullwidth normalization (mechanical)
+│   ├── strip-version-markers.py        # Phase 8A: strip markers + cleanup + translator credit
+│   └── bilingual-to-pdf.py             # Bilingual MD → HTML + PDF (on demand)
+└── ultra/                         # Methodology components (Ye Zinan 17-skill file mapping & diagram)
+    ├── SKILL_MAP.md                   # 17-skill to workflow-phase mapping table (with skip rules)
+    └── WORKFLOW.md                    # Translation workflow diagram (Mermaid, with validation chain)
+```
+
+---
+
+## Contributing
+
+**Maintainer:** [Lilipuut](https://github.com/3060226349kk-cmd) — project creator, responsible for core workflow design and methodology integration.
+
+Contributions are welcome. The following guidelines explain the project structure and how to participate effectively.
+
+### Setting Up a Development Environment
+
+1. Install [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
+2. Clone this repository to `~/.claude/skills/en-zh-max/`
+
+### Contribution Workflow
+
+1. **Open an issue**: Describe the proposed change in [Issues](https://github.com/3060226349kk-cmd/en-zh-max/issues) to avoid conflicting work
+2. **Fork + Branch**: Create a feature branch from `main` (e.g. `fix/punctuation-typo`, `feat/new-reference`)
+3. **Scope of changes**:
+   - `SKILL.md`: phase gate conditions, script paths, methodology references
+   - `references/*.md`: additions or corrections to technique inventories and trap lists
+   - `scripts/*.py`: feature extensions or bug fixes
+   - `ultra/*.md`: skill mapping table or workflow diagram updates
+   - `README.md`: update Chinese and English versions simultaneously (precise symmetry)
+4. **Commit**: prefix with scope tag (e.g. `[SKILL]`, `[REF]`, `[SCRIPT]`, `[ULTRA]`, `[DOC]`)
+5. **PR**: link the issue, describe the change and verification method
+
+### Code Conventions
+
+- SKILL.md: preserve YAML frontmatter (`name`, `description`, `version`, `allowed-tools`); annotate phase gate conditions (entry/exit criteria)
+- references/*.md: numbered list entries with source attribution (Ye Zinan page numbers)
+- scripts/*.py: Python 3.8+ compatible, zero external dependencies; resolve file paths via `$SKILL_DIR` env var or relative paths
+- Cross-platform: scripts must run on Windows (git-bash), macOS, and Linux
+- New methodology documents must register their phase mapping in `SKILL_MAP.md`
+
+### Release Process
+
+1. Bump version in `SKILL.md` YAML `version` field + README badge link
+2. (Optional) Maintain a CHANGELOG for notable changes per release
+3. Merge to `main`—the latest version is then available via `git clone`
+
+---
+
+## Acknowledgements
+
+**Author:** [Lilipuut](https://github.com/3060226349kk-cmd) — overall architecture design, methodology integration, and implementation of en-zh-max.
+
+The skill's base framework derives from [en-zh-translation-polish](https://github.com/HoraceLuBFA/en-zh-translation-polish), an English→Chinese translation polish skill. The original 7-stage workflow was expanded into the full version presented here.
+
+Distillation of the 17 textbook skills was performed via the book2skill pipeline in [cangjie-skill](https://github.com/3060226349kk-cmd/cangjie-skill).
+
+Special thanks to **Prof. Ye Zinan**—his *Advanced English-Chinese Translation Theory and Practice* (Tsinghua University Press, 2020) provides the systematic theoretical foundation for this skill's methodology. The book's seven-dimension text analysis, unpacking method, five-level E-C contrastive analysis, formulaic language "water vs ice" identification, and six-dimension Westernization assessment constitute the scholarly backbone of every phase in this skill.
+
+The validation pipeline's `verification-before-completion` step is powered by [Superpowers](https://github.com/obra/superpowers), `scribe:prose-reviewer` by [scribe](https://github.com/anthrxc/scribe), and `humanizer`/`humanizer-zh` by their respective validation skills. Thanks to each project's open architecture.
+
+---
+
+## License
+
+[MIT](LICENSE) © 2026 Lilipuut
+
+[↑ Back to top](#en-zh-max--english-to-chinese-translation-for-claude-code) · [🇨🇳 中文](#en-zh-max--英译汉翻译-claude-code-skill)
 
 ---
 
