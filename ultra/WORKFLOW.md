@@ -28,14 +28,13 @@ flowchart TB
     end
 
     subgraph VERIFY["🔍 校验链 ★ 不可跳过"]
-        V0["步骤 0<br/>整书一致性预检<br/>（混合模式专属）"]
         V1["scribe:prose-reviewer<br/>AI腔/翻译腔/语感漂移"]
         V2["verification-before-completion<br/>交付物完整性 + 英中对齐验证"]
         V2_5["步骤 2.5<br/>前景化 + 反释义评估<br/>（软文本专属）"]
         V3["humanizer<br/>四维验证 + 对抗自审"]
         V4["humanizer-zh<br/>中文 AI 痕迹终审（24 模）"]
         
-        V0 --> V1 --> V2 --> V2_5 --> V3 --> V4
+        V1 --> V2 --> V2_5 --> V3 --> V4
     end
 
     subgraph OUTPUT["📦 交付"]
@@ -51,27 +50,17 @@ flowchart TB
         D1 --> D5
     end
 
-    subgraph PARALLEL["⚡ 超长文本并行模式（≥7章）"]
-        P1["阶段 B1<br/>基线章串行翻译<br/>前 1-2 章建立风格基线"]
-        P2["阶段 B2<br/>批量章并行翻译<br/>剩余章注入风格基线"]
-        P3["阶段 B3<br/>合并 + 整书校验链 ★"]
-        
-        P1 --> P2 --> P3
-    end
-
     INPUT --> PREP
     PREP --> CORE
     CORE --> VERIFY
     VERIFY --> OUTPUT
-    CORE -.->|超长文本| PARALLEL
-    PARALLEL -.->|校验链通过| OUTPUT
 ```
 
 ## 阶段说明
 
 | 阶段 | 名称 | 核心产出 | 准出条件 |
 |------|------|---------|---------|
-| **-2** | 预扫描与策略决定 | `translation-plan.md` | 总章数 + 词数统计，模式判定 |
+| **-2** | 预扫描 | `translation-plan.md` | 总章数 + 词数统计（全程单代理串行） |
 | **-1** | 项目初始化 | `source/` 目录 + 归位验证 | 原始文件移入，提取产物生成 |
 | **-0.5** | Ultra 预读取 ★ | 17 个方法论文件已读 | INDEX + 16 skill 全部 Read 完成 |
 | **0** | 文本分析 | text-profile 写入头部 | 档位/自由度/文本类型/语域 四项非占位符 |
@@ -90,10 +79,6 @@ flowchart TB
 ```
 阶段 6 通过
     ↓
-步骤 0：整书一致性预检（混合模式）
-    └── 术语一致性扫描 + 语感漂移检测 + 衔接质量抽查
-    └── 纯串行模式跳过
-    ↓
 ① scribe:prose-reviewer
     └── 整书级 AI 腔/翻译腔/语感漂移审查
     └── 未通过 → 标记问题段落，退回阶段 3
@@ -109,8 +94,7 @@ flowchart TB
     ↓
 ③ humanizer
     └── 四维验证：Fidelity / Naturalness / Grammar / AI Patterns
-    └── 强制对抗自审，原位修复
-    └── 混合模式分层执行（Tier 1-3）
+    └── 强制对抗自审，原位修复（全量执行）
     ↓
 ④ humanizer-zh
     └── 24 条中文 AI 痕迹规则（四大类 × 6）

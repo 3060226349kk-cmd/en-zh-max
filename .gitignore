@@ -1,8 +1,36 @@
-__pycache__/
-*.py[cod]
+# Hermes core config (contains ALL API keys)
+.hermes/
+.agents/
+*.hermes_profile
+
+# Environment variables
+.env
+.env.*
+*.env.local
+
+# Git credentials (contains GitHub token)
+.git-credentials
+
+# OS files
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Editor artifacts
 .idea/
 .vscode/
 *.swp
+*.swo
+*~
+
+# Logs
+*.log
+tmp/
+temp/
