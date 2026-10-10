@@ -78,8 +78,8 @@ blockquote {
 PDF 的视觉问题（文字贴边、溢页、背景延伸）在浏览器中就能发现。
 
 ```bash
-# 1. 在 Hermes 浏览器中打开 HTML 文件
-browser_navigate(url="file:///C:/path/to/translation.html")
+# 1. 在浏览器（ego-browser）中打开 HTML 文件
+browser_navigate(url="file:///绝对路径/translation.html")
 
 # 2. 用视觉模型截屏检查布局
 browser_vision(question="检查页面布局：1) blockquote灰色背景是否贴着左右边缘？2) 文字离页面左右边缘多远？3) 页面底部是否有文字紧贴下边缘？")
@@ -90,8 +90,8 @@ browser_vision(question="检查页面布局：1) blockquote灰色背景是否贴
 ```python
 from playwright.sync_api import sync_playwright
 
-html_path = r"C:\path\to\translation.html"
-pdf_path = r"C:\path\to\output.pdf"
+html_path = "/绝对路径/translation.html"
+pdf_path = "/绝对路径/output.pdf"
 
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=True)

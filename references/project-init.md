@@ -45,7 +45,7 @@ import subprocess
 
 epub_path = os.path.join(source_dir, '原书名.epub')
 md_path = os.path.join(source_dir, '原书名.md')
-pandoc = r'C:\pandoc-3.9\pandoc.exe'
+pandoc = 'pandoc'  # 需在 PATH 中
 subprocess.run([pandoc, epub_path, '-t', 'markdown', '--wrap=none', '-o', md_path], check=True)
 print(f'Markdown 已转换: {md_path}')
 ```
@@ -56,7 +56,7 @@ print(f'Markdown 已转换: {md_path}')
 |------|------|---------|
 | `.epub` | Pandoc | `-t markdown --wrap=none`，保留标题层级 |
 | `.docx` / `.html` / `.md` | Pandoc | 同上 |
-| `.azw3` | Calibre `ebook-convert` | `D:\Calibre\Calibre Portable\Calibre\ebook-convert.exe` |
+| `.azw3` | Calibre `ebook-convert` | `ebook-convert 输入.azw3 输出.txt`（macOS 在 /Applications/calibre.app/Contents/MacOS/） |
 | `.mobi` | Python `mobi` 模块 | 输出 Markdown，保留标题层级；详见 `references/mobi-extraction.md` |
 
 ## 步骤 4：归位验证 ★ 落盘前必检

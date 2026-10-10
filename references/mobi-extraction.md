@@ -1,4 +1,4 @@
-# 电子书文本提取（Windows）
+# 电子书文本提取
 
 根据文件格式分流提取，**只对 Pandoc 支持的格式用 Pandoc**。
 
@@ -11,22 +11,22 @@
   └── 见 references/epub-extraction.md（Python zipfile 优先，Pandoc/Calibre 备选）
 
 .docx / .html / .md 等 Pandoc 支持的格式
-  └── Pandoc 🥇（C:\pandoc-3.9\pandoc.exe -t markdown --wrap=none -o source/出力.md source/入力ファイル）
+  └── Pandoc 🥇（pandoc -t markdown --wrap=none -o source/输出.md source/输入文件）
 
 .mobi
   └── Python mobi 模块（Pandoc 不支持 mobi 输入）
 
 .azw3
   └── Calibre ebook-convert 🥇
-      └── D:\Calibre\Calibre Portable\Calibre\ebook-convert.exe（已安装）
+      └── ebook-convert（Calibre 自带；macOS 在 /Applications/calibre.app/Contents/MacOS/ebook-convert）
 ```
 
 ## 🥇 方案一：Pandoc（.docx / .html / .md）
 
-**路径：`C:\pandoc-3.9\pandoc.exe`**
+**命令：`pandoc`（需在 PATH 中）**
 
 ```bash
-"C:\pandoc-3.9\pandoc.exe" "source/输入文件.docx" -t markdown --wrap=none -o "source/输出文件.md"
+pandoc "source/输入文件.docx" -t markdown --wrap=none -o "source/输出文件.md"
 ```
 
 - `-t markdown --wrap=none` 输出 Markdown，保留标题层级（`#`/`##`/`###`）与目录结构
@@ -36,10 +36,10 @@
 
 ## 🥇 方案二：Calibre ebook-convert（.azw3 / .mobi fallback）
 
-**路径：`D:\Calibre\Calibre Portable\Calibre\ebook-convert.exe`**（已在用户机器上安装）
+**命令：`ebook-convert`**（Calibre 自带；macOS 在 `/Applications/calibre.app/Contents/MacOS/ebook-convert`）
 
 ```bash
-"D:\Calibre\Calibre Portable\Calibre\ebook-convert.exe" "source/输入文件.azw3" "source/输出文件.txt"
+ebook-convert "source/输入文件.azw3" "source/输出文件.txt"
 ```
 
 - 支持输入：`.azw3`, `.mobi`, `.prc`, `.epub`, `.docx`, `.pdf` 等大量格式

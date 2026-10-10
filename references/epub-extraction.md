@@ -46,9 +46,8 @@ for name in z.namelist():
 适合简单 EPUB（无复杂内嵌字体/排版）：
 
 ```bash
-# Pandoc 在 C:\pandoc-3.9 的场合
-# 输入输出均指向 source/ 子目录
-/c/pandoc-3.9/pandoc.exe "source/书.epub" -t plain -o "source/书.txt"
+# pandoc 需在 PATH 中（macOS：brew install pandoc）；输入输出均指向 source/ 子目录
+pandoc "source/书.epub" -t plain -o "source/书.txt"
 ```
 
 ## 方法三：Calibre ebook-convert
@@ -59,7 +58,7 @@ Calibre 的 `ebook-convert` 工具支持最广泛的格式：
 # 获取路径
 where ebook-convert
 # 或指定路径；输入输出均指向 source/ 子目录
-"D:\Calibre\Calibre Portable\Calibre\ebook-convert.exe" "source/书.epub" "source/书.txt"
+ebook-convert "source/书.epub" "source/书.txt"   # macOS 路径：/Applications/calibre.app/Contents/MacOS/ebook-convert
 ```
 
 ## 常见问题

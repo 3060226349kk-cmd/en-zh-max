@@ -1,17 +1,20 @@
-# en-zh-translation-polish skill
+# en-zh-max 文件清单
 
-## Files
-
-| File | Purpose |
-|------|---------|
-| `SKILL.md` | Main workflow: 7-stage translation pipeline (analysis → deverbalization → draft → polish → rhythm check → accuracy QA → punctuation normalize → output) |
-| `references/libertine-vocabulary.md` | 直白性/身体词汇硬词映射表（鸡巴/屄/屁眼/操等） |
-| `references/techniques.md` | 英译汉技巧库（词性转换、增/减词、分句/合句等） |
-| `references/translationese-symptoms.md` | 翻译腔病症对照表及归化/异化取舍 |
-| `references/text-analysis-and-qa.md` | 纽马克文本分类、隐喻决策法则、准确性质检标准 |
-| `references/mobi-extraction.md` | 从 `.mobi` 提取纯文本（Python mobi 模块） |
-| `references/epub-extraction.md` | 从 `.epub` 提取纯文本（Python zipfile / Pandoc / Calibre） |
-| `references/playwright-pdf-generation.md` | Playwright HTML→PDF 封装方案 |
-| `references/bilingual-html-template.md` | 双语 Markdown 解析器模式 + CEU Navy CSS 模板 |
-| `scripts/normalize-punctuation.py` | 中文标点全角归一化脚本（Windows 适配） |
-| `scripts/bilingual-to-pdf.py` | 英中对照 Markdown → CEU Academic Navy HTML + PDF 一键脚本（Playwright） |
+| 文件 | 用途 |
+|------|------|
+| `SKILL.md` | 运行时指令：三档工作量、六步流程、对照格式、文件路由 |
+| `references/methods.md` | 叶子南 15 法速查（中、大档动笔前读） |
+| `references/workflow.md` | 工作流图 |
+| `references/translationese-symptoms.md` | 翻译腔病症与修法、西化的边界 |
+| `references/techniques.md` | 英译汉技巧库 |
+| `references/text-analysis-and-qa.md` | 文本分析、隐喻决策、质检清单 |
+| `references/libertine-vocabulary.md` | 萨德式浪荡文学的直白词汇映射 |
+| `references/literary-fiction-sexual-register.md` | 当代文学性描写的混合语域 |
+| `references/project-init.md` | 大档项目初始化（source/ 归位） |
+| `references/epub-extraction.md`、`references/mobi-extraction.md` | 原文提取 |
+| `references/output-formats.md` | 派生全中文版、EPUB、MOBI、PDF |
+| `references/bilingual-html-template.md`、`references/playwright-pdf-generation.md` | 对照 HTML 模板与 PDF 生成 |
+| `scripts/check.py` | 机检：标点残留 + 翻译腔信号（与 jp-zh-max、es-zh-max 共用同一份） |
+| `scripts/normalize-punctuation.py` | 兼容入口，调用 check.py 修标点 |
+| `scripts/strip-version-markers.py` | 交付清理 + 译者署名 + 项目地址（与 jp-zh-max 共用同一份） |
+| `scripts/bilingual-to-pdf.py` | 英中对照 MD → HTML + PDF |
