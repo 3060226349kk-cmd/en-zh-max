@@ -19,6 +19,9 @@ flowchart TB
     end
 
     M5 --> OUT["英中对照 md<br/>按需：HTML · EPUB · MOBI · PDF"]
+    M5 -->|"大档每章收尾"| HM{"handoff.py meter"}
+    HM -->|"→ 继续"| M0
+    HM -->|"→ 交接"| HO["落盘 → 写 HANDOFF.md → 停下<br/>新会话：续译 &lt;目录&gt;"]
 ```
 
 | 步骤 | 依据（references/methods.md） | 准出 |
@@ -29,3 +32,4 @@ flowchart TB
 | 3 修订 | 第 12、13、14、15 法 + translationese-symptoms.md | 两张清单都过完一遍 |
 | 4 终审 | humanizer | 整章过一次 |
 | 5 机检交付 | check.py、strip-version-markers.py | 标点残留为 0，署名和项目地址齐全 |
+| 大档收尾 | references/handoff.md、handoff.py | 跑过 meter；报「→ 交接」时已落盘、写好 HANDOFF.md、会话停下 |

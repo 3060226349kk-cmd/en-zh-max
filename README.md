@@ -2,7 +2,7 @@
 
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Skill-9cf)](https://docs.anthropic.com/en/docs/claude-code)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
-[![Release](https://img.shields.io/badge/release-v4.0.0-blue)](https://github.com/3060226349kk-cmd/en-zh-max/releases/latest)
+[![Release](https://img.shields.io/badge/release-v4.1.0-blue)](https://github.com/3060226349kk-cmd/en-zh-max/releases/latest)
 
 [中文](#这是什么) · [English](#english)
 
@@ -30,12 +30,21 @@ en-zh-max 是一个翻译 skill，Claude Code、DeepSeek Harness 等支持 Agent
 | 自包含 | 依赖仓库外的 en-zh-ultra 目录（未随仓库发布） | 速查表随仓库提供，不再依赖外部目录 |
 | 交付清理 | 只认 Windows 路径 | 也清理 macOS、Linux 路径；署名里的项目地址自动补齐 |
 
+## v4.1：大档分会话
+整本书在一个会话里译到底，上下文会越滚越大：实测一个会话涨到 96 万 token，平均每章耗 1400 万；新会话起步只要 3 到 5 万。v4.1 让大档按章分会话：
+- 每章收尾跑 `scripts/handoff.py meter`。Claude Code 里它读本会话的实际上下文，达到 15 万 token 判交接；其他 agent 按每会话 2 章判。
+- 交接时先把新译名、进度写进术语表和翻译计划，再用 `handoff.py write` 在项目目录写 `HANDOFF.md`，续接命令自动复制到剪贴板。
+- 新窗口粘贴续接命令（如 `/en-zh-max 续译 <项目目录>`），只读交接文件、翻译计划和术语表就接着译。
+- 说「自动接力」时，主会话逐章派新的子代理续译，可以无人值守（需要 agent 支持子代理）。
+
+细则见 [references/handoff.md](references/handoff.md)。
+
 ## 工作流
 | 档 | 场景 | 流程 |
 |---|---|---|
 | 小 | 聊天里几句、一段 | 定性 → 理解 → 初译 → 自查，在回复里给对照 |
 | 中 | 一篇文档 | 定性 → 理解 → 初译 → 修订 → 机检 → 交付 |
-| 大 | 整本书 | 项目初始化，然后逐章走中档流程，每章加一次 humanizer 终审；全书合订后派生 HTML、EPUB、MOBI |
+| 大 | 整本书 | 项目初始化，然后逐章走中档流程，每章加一次 humanizer 终审；全书合订后派生 HTML、EPUB、MOBI；每章收尾量一次上下文，到阈值就交接、换新会话续译 |
 
 - **定性**：判断软硬、纽马克类型、自由度（1–10）、语域，原文有粗话或性描写时再定语域脏度（1–5）。
 - **修订**：对着中文查翻译腔诊断清单，对着原文查准确性六项（重心、遗漏、结构意义、过度详解、逻辑、语域）。软文本再查前景化和反释义。
@@ -63,11 +72,12 @@ git clone https://github.com/3060226349kk-cmd/en-zh-max.git en-zh-max
 ```
 en-zh-max/
 ├── SKILL.md                 # 运行时指令：三档工作量、流程、格式、文件路由
-├── references/              # 15 法速查 methods.md、工作流图 workflow.md、翻译腔症状、技巧库、文本分析与质检、语域词表、提取与输出
+├── references/              # 15 法速查 methods.md、工作流图 workflow.md、分会话交接 handoff.md、翻译腔症状、技巧库、文本分析与质检、语域词表、提取与输出
 └── scripts/
     ├── check.py                    # 机检：标点残留 + 翻译腔信号（--fix 修标点）
     ├── normalize-punctuation.py    # 兼容入口，调用 check.py 修标点
     ├── strip-version-markers.py    # 交付清理 + 译者署名 + 项目地址
+    ├── handoff.py                  # 大档分会话：量上下文、写 HANDOFF.md
     └── bilingual-to-pdf.py         # 英中对照 MD → HTML + PDF
 ```
 
@@ -90,5 +100,6 @@ en-zh-max is an English→Chinese translation skill for agents that support Agen
   - Every tier: profile the text, understand, then draft.
   - Document and book: revise once against two checklists, one for translationese and one for six-point accuracy, then run `scripts/check.py zh --fix`, which fixes punctuation and reports translationese signals.
   - Book: also one `humanizer` pass per chapter.
+- **Long jobs**: book projects are split across sessions. After each chapter, `scripts/handoff.py meter` reads the session's real context size (Claude Code) and calls for a handoff at 150k tokens; other agents hand off every two chapters. `handoff.py write` saves `HANDOFF.md` in the project folder and copies the resume command to the clipboard. Say 「自动接力」 to have the main session relay chapters through fresh subagents.
 
 Install by cloning this repo into your skills folder. MIT licensed.

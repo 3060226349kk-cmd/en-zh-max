@@ -6,7 +6,7 @@ description: >-
   bilingual output, or translating full-length English books. Not for Chinese-to-English, other source
   languages, pure Chinese writing polish, or single-word lookups.
 license: MIT
-version: 4.0.0
+version: 4.1.0
 tags: [translation, english-to-chinese, english-chinese, chinese-translation, 英译汉, 英译中, 翻译, 润色, 中英对照, localization, book2skill, ye-zinan, translation-pipeline]
 allowed-tools: Read Write Edit Bash
 ---
@@ -36,9 +36,12 @@ allowed-tools: Read Write Edit Bash
 |---|---|---|---|
 | 小 | 聊天里几句、一段 | 只读本文件 | 在回复里给对照，不落盘 |
 | 中 | 一篇文章、一份文档 | 加读 `references/methods.md`（15 法速查）和 `references/translationese-symptoms.md` | `<名称> 翻译(中英对照).md`，跑机检 |
-| 大 | 整本书、长篇系列 | 中档全部，另读 `references/project-init.md`、`references/output-formats.md` | 逐章对照 md、全书合订、EPUB/MOBI；PDF 按需 |
+| 大 | 整本书、长篇系列，或一个会话译不完的长文（约 2 万词以上） | 中档全部，另读 `references/project-init.md`、`references/output-formats.md`、`references/handoff.md` | 逐章对照 md、全书合订、EPUB/MOBI；PDF 按需 |
 
-整本书由当前代理逐章串行翻译，不派子代理，不并行。
+**大档分会话做**，细则见 `references/handoff.md`：
+- 逐章串行，不并行。每做完一章，跑 `python3 "$SKILL_DIR/scripts/handoff.py" meter --done <本会话已做完的章数>`（`$SKILL_DIR` 指本技能所在目录）。报「→ 交接」就落盘、写 HANDOFF.md、停下，请用户开新窗口续译。
+- 用户说「续译 <目录>」，或项目目录里有 HANDOFF.md：按细则第 3 节续接，不从头读起。
+- 用户说「自动接力」：主会话只调度，每章派一个新的子代理，仍然一章接一章。除此之外不派子代理。
 
 ## 2. 流程
 ### 第 0 步：定性
@@ -135,6 +138,7 @@ python3 "$SKILL_DIR/scripts/strip-version-markers.py" "<名称> 翻译(中英对
 | 技巧库：词性转换、增减词、分句合句、语序、从句、被动、正反译 | `references/techniques.md` |
 | 文本分析、隐喻决策、质检清单 | `references/text-analysis-and-qa.md` |
 | 大档项目初始化（source/ 归位） | `references/project-init.md` |
+| 大档分会话：交接、续接、自动接力 | `references/handoff.md` |
 | EPUB、MOBI 原文提取 | `references/epub-extraction.md`、`references/mobi-extraction.md` |
 | 派生全中文版、EPUB、MOBI、PDF | `references/output-formats.md`、`references/bilingual-html-template.md`、`references/playwright-pdf-generation.md` |
 | 流程图 | `references/workflow.md` |
